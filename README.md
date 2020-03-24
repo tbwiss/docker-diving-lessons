@@ -68,3 +68,51 @@ docker swarm update --cert-expiry 48h
 
 docker swarm leave --force
 
+
+### NETWORK
+docker network ls
+
+docker network inspect bridge
+
+docker port psweb1
+
+docker container run --rm -d --name web2 -p 8080:80 nginx
+
+docker network create -d bridge golden-gate
+
+docker container run --rm -d --network golden-gate alpine sleep 1d
+
+docker network create -d overlay overlaynet
+
+docker service create -d  --name pinger --replicas 2 --network overlaynet alpine sleep 2d
+
+docker network inspect overlaynet
+
+docker service create -d --name pong --network overlaynet --replicas 3 alpine sleep 3d
+// create also a ping server and ping each other… service discovery
+
+docker service create -d --name web --network overlaynet --replicas 1 -p 8080:80 nginx
+
+
+### VOLUMES
+docker volume create myvol
+
+docker volume ls
+
+docker container run -d -it --name voltest --mount source=ubervol,target=/vol alpine:latest
+
+// on a node:
+cat /var/lib/docker/volumes/ubervol/_data/newfile
+
+docker volume rm ubervol
+
+
+### SECRETS 
+docker secret create wp-sec-v1 /tmp/classified   (classified is a file)
+
+docker service create -d --name secret-service-3 --replicas 3 --secret wp-sec-v1 nginx sleep 5d
+
+docker container exec -it d64d488689b1 sh
+
+cat /run/secrets/wp-sec-v1
+

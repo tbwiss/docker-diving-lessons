@@ -24,12 +24,19 @@ docker service ps psight2 | grep :v2
 
 ### Misc 2
 docker history redis
+
 docker image inspect redis
+
 docker image rm redis
+
 docker image ls --digests
+
 docker image pull nigelpoulton/tu-demo -a
+
 docker image build -t psweb1 .       (Note the dot, current dir as context, where the code is,    -t  => tag)
+
 docker image build -t psweb1 https://github.com/nigelpoulton/psweb.git
+
 docker container run -d --name psweb_1 -p 8080:8080 psweb
 
 docker container run -it alpine sh
@@ -42,7 +49,9 @@ docker logs 06a535a69461
 
 ### Swarm
 docker swarm init --advertise-addr 192.168.0.23:2377 —listen-addr 192.168.0.23:2377
+
 docker swarm join-token manager      (or worker)
+
 docker node ls
 
 docker swarm join --token SWMTKN-1-XXXXXX 192.168.0.21:2377 --advertise-addr 192.168.0.19:2377 --listen-addr 192.168.0.19:2377
@@ -50,7 +59,9 @@ docker swarm join --token SWMTKN-1-XXXXXX 192.168.0.21:2377 --advertise-addr 192
 docker swarm join-token --rotate worker
 
 docker swarm update --autolock=true
-Service docker restart
+
+service docker restart
+
 docker swarm unlock (-> then pass in key)
 
 docker swarm update --cert-expiry 48h

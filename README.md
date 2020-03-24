@@ -69,7 +69,7 @@ docker swarm update --cert-expiry 48h
 docker swarm leave --force
 
 
-### NETWORK
+### Network
 docker network ls
 
 docker network inspect bridge
@@ -94,7 +94,7 @@ docker service create -d --name pong --network overlaynet --replicas 3 alpine sl
 docker service create -d --name web --network overlaynet --replicas 1 -p 8080:80 nginx
 
 
-### VOLUMES
+### Volumes
 docker volume create myvol
 
 docker volume ls
@@ -107,7 +107,7 @@ cat /var/lib/docker/volumes/ubervol/_data/newfile
 docker volume rm ubervol
 
 
-### SECRETS 
+### Secrets
 docker secret create wp-sec-v1 /tmp/classified   (classified is a file)
 
 docker service create -d --name secret-service-3 --replicas 3 --secret wp-sec-v1 nginx sleep 5d
@@ -116,3 +116,16 @@ docker container exec -it d64d488689b1 sh
 
 cat /run/secrets/wp-sec-v1
 
+
+### Deploy
+
+// also when the stackfile.yaml has been updated (f.e. new:   replicas 10)
+(1) docker stack deploy -c stackfile.yaml voter
+
+docker stack ls
+
+docker stack services voter
+
+// better to do it with the call (1)!! so we also have it for later deplys and can put 
+// it in version control 
+docker service scale voter_vote=20

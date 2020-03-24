@@ -120,12 +120,13 @@ cat /run/secrets/wp-sec-v1
 ### Deploy
 
 // also when the stackfile.yaml has been updated (f.e. new:   replicas 10)
+
 (1) docker stack deploy -c stackfile.yaml voter
 
 docker stack ls
 
 docker stack services voter
 
-// better to do it with the call (1)!! so we also have it for later deplys and can put 
-// it in version control 
+// better to do it with the call (1)!! so we also have it for later deplys and can put  it in version control 
+
 docker service scale voter_vote=20
